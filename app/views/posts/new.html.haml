@@ -1,7 +1,11 @@
-= simple_form_for @post do |f|
-  = f.input :image
+.form-wrapper
+= simple_form_for @post, html: { class: 'form-horizontal', multipart: true } do |f|
+  .form-group
+    = f.input :image
+  .form-group.text-center
   = f.input :caption
-  = f.button :submit
+  .form-group.text-center
+  = f.button :submit, class: 'btn-success'
 
 -@posts.each do |post|
   .row
