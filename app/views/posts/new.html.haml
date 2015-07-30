@@ -1,13 +1,1 @@
-.form-wrapper
-= simple_form_for @post, html: { class: 'form-horizontal', multipart: true } do |f|
-  .form-group
-    = f.input :image
-  .form-group.text-center
-  = f.input :caption
-  .form-group.text-center
-  = f.button :submit, class: 'btn-success'
-
--@posts.each do |post|
-  .row
-    =link_to (image_tag post.image.url(:medium)), post_path(post)
-    %p= post.caption
+=render "form"
