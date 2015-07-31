@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :owned_post, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
@@ -7,14 +8,17 @@ class PostsController < ApplicationController
   end
 
   def show
+    @post = Post.find(params[:id])
   end
 
   def new
-    @post = Post.new
+    @post = current_user.posts.build
   end
 
   def create
-    if @post = Post.create(post_params)
+    @post = current_user.posts.build(post_params)
+    # for a new action create new current_user.posts object
+    if @post.save
       flash[:success] = "Your post has been created!"
       redirect_to posts_path
     else
@@ -24,6 +28,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @post = Post.find(params[:id])
   end
 
   def update
@@ -37,7 +42,9 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = Post.find(params[:id])
     @post.destroy
+    flash[:success] = "Your post has been sucessfully deleted."
     redirect_to root_path
   end
 
@@ -50,4 +57,12 @@ class PostsController < ApplicationController
   def set_post
     @post = Post.find(params[:id])
   end
+
+  def owned_post
+    unless current_user == @post.user
+      flash[:alert] = "That post doesn't belong to you!"
+      redirect_to root_path
+    end
+  end
+
 end
