@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150731044914) do
+=======
+ActiveRecord::Schema.define(version: 20150730013220) do
+>>>>>>> 121767c2a13bb48acc15f25391e906670f21746e
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +64,10 @@ ActiveRecord::Schema.define(version: 20150731044914) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["user_name"], name: "index_users_on_user_name", unique: true, using: :btree
 
+<<<<<<< HEAD
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+=======
+>>>>>>> 121767c2a13bb48acc15f25391e906670f21746e
   add_foreign_key "posts", "users"
 end
