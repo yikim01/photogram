@@ -5,29 +5,37 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(comment_params)
     @comment.user_id = current_user.id
 
-    if@comment.save
-      flash[:success] = "You commented!"
-      redirect_to :back
+    if @comment.save
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js
+      end
     else
       flash[:alert] = "something went wrong"
       render root_path
     end
   end
 
-private
+  def destroy
+    @comment = @post.comments.find(params[:id])
 
-def comment_params
-  params.require(:comment).permit(:content)
-end
+    if @comment.user_id == current_user.id
+      @comment.destroy
+      respond_to do |format|
+        format.html { redirect_to root_path}
+        format.js
+      end
+    end
+  end
 
-def set_post
-  @post = Post.find(params[:post_id])
-end
+  private
 
-def destroy
-  @comment = @post.comments.find(params[:id])
+  def comment_params
+    params.require(:comment).permit(:content)
+  end
 
-  @comment.destroy
-  flash[:success] = "Comment deleted"
-  redirect_to root_path
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
+
 end
